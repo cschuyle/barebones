@@ -1,15 +1,12 @@
 package org.example;
 
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * Implement the mean, median, mode and range methods of the Calculator class in Java 8 Functional
@@ -31,6 +28,7 @@ class FunctionalTest {
     void median() {
         assertEquals(6, calculator.median(7, 11, 6, 2, 5), 0);
         assertEquals(13.5, calculator.median(13, 18, 14, 16, 5, 8), 0);
+        assertEquals(6, calculator.median(6), 0);
     }
 
     @Test
@@ -39,6 +37,9 @@ class FunctionalTest {
         assertArrayEquals(new int[]{3, 5}, calculator.mode(4, 5, 3, 1, 3, 2, 5, 6));
         assertArrayEquals(new int[]{5}, calculator.mode(4, 5, 5, 3, 1, 3, 2, 5, 6));
         assertArrayEquals(new int[]{1, 2, 3, 4, 5}, calculator.mode(1, 3, 2, 4, 5));
+    }
+
+    record Pair<T1, T2>(T1 val1, T2 val2) {
     }
 
     private class Calculator {
@@ -53,13 +54,20 @@ class FunctionalTest {
             // TODO: Use teeing ???
             // reduce
             // statistics
+
+            // WHY DOES THIS NOT COMPILE?
+//            return Arrays.stream(input).collect(teeing(
+//                    maxBy(Integer::compare),
+//                    minBy(Integer::compare),
+//                    (mx, mn) -> mx.get() - mn.get()));
+
         }
 
         /**
          * mean: the average of the numbers
          */
         double mean(Integer... input) {
-            if(input.length == 0) {
+            if (input.length == 0) {
                 return 0;
             }
             return Arrays.stream(input)
@@ -103,7 +111,7 @@ class FunctionalTest {
 
             return grouped.entrySet().stream()
                     .filter(e -> e.getValue().size() == maxval)
-                    .mapToInt( e-> e.getKey())
+                    .mapToInt(e -> e.getKey())
                     .toArray();
         }
     }
