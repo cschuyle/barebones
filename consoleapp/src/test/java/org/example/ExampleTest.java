@@ -1,6 +1,5 @@
 package org.example;
 
-import org.hamcrest.Matcher;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
